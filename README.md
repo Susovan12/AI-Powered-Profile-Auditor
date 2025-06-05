@@ -1,2 +1,26 @@
-# AI-Powered-Profile-Auditor
-A smart Streamlit web app that uses OpenAI GPT-3.5 to review and enhance LinkedIn profile content or résumé text. It provides personalized feedback on grammar, tone, clarity, keyword usage, and ATS compatibility — helping users improve their professional visibility.
+# AI-Powered LinkedIn Profile Auditor
+
+🔍 A simple Streamlit web app that analyzes your LinkedIn profile using OpenAI's GPT-3.5 Turbo.
+
+## ✨ Features
+- Grammar & writing quality feedback
+- ATS-friendly suggestions
+- Keyword comparison with job description
+- Fully free to run with your own OpenAI API key
+
+## 🚀 How to Run
+```bash
+pip install -r requirements.txt
+streamlit run app.py
+```
+
+## 🔐 API Key Configuration
+Create a .env file and add your OpenAI API key:
+```
+OPENAI_API_KEY=sk-...
+```
+
+## 🧠 Built With
+- Streamlit
+- OpenAI GPT-3.5 Turbo
+- LanguageTool

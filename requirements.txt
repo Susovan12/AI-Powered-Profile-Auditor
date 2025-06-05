@@ -1,0 +1,8 @@
+streamlit
+openai
+language_tool_python
+python-dotenv
+PyPDF2
+requests
+beautifulsoup4
+lxml
