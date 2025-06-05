@@ -14,7 +14,7 @@ import random
 from fake_useragent import UserAgent
 import json
 import urllib.parse
-
+from streamlit_lottie import st_lottie
 # Load environment variables from .env file
 load_dotenv()
 
