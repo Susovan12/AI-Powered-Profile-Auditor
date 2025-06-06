@@ -54,20 +54,18 @@ def load_lottieurl(url: str):
         return None
     return r.json()
 def get_language_tool():
-    for i in range(3):
+    for attempt in range(3):  # Try 3 times
         try:
             return language_tool_python.LanguageToolPublicAPI('en-US')
         except RateLimitError:
-            time.sleep(5)
+            print(f"⚠️ Rate limit hit, retrying... attempt {attempt + 1}")
+            time.sleep(5)  # wait 5 seconds before retrying
     return None
 
 language_tool = get_language_tool()
 
-if language_tool:
-    matches = language_tool.check(user_input)
-    # continue processing
-else:
-    st.warning("⚠️ LanguageTool API is currently overloaded. Try again in a few seconds.")
+if language_tool is None:
+    st.warning("⚠️ LanguageTool API is currently rate-limited. Please wait and try again later.")
 def generate_resume(profile_sections_text, job_description=None, api_key=None):
     if api_key:
         client = OpenAI(api_key=api_key)
