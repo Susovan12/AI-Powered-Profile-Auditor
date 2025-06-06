@@ -15,6 +15,8 @@ from fake_useragent import UserAgent
 import json
 import urllib.parse
 from streamlit_lottie import st_lottie
+import requests
+
 
 # Load environment variables from .env file
 load_dotenv()
@@ -45,6 +47,11 @@ It checks for grammar, professional tone, keyword relevance, and gives you actio
 """)
 
 # Add the resume generation function
+def load_lottieurl(url: str):
+    r = requests.get(url)
+    if r.status_code != 200:
+        return None
+    return r.json()
 
 def generate_resume(profile_sections_text, job_description=None, api_key=None):
     if api_key:
