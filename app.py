@@ -15,7 +15,7 @@ from fake_useragent import UserAgent
 import json
 import urllib.parse
 from streamlit_lottie import st_lottie
-from language_tool_python.utils import RateLimitError
+
 # Load environment variables from .env file
 load_dotenv()
 
@@ -45,19 +45,7 @@ It checks for grammar, professional tone, keyword relevance, and gives you actio
 """)
 
 # Add the resume generation function
-def get_language_tool():
-    for attempt in range(3):
-        try:
-            return language_tool_python.LanguageToolPublicAPI('en-US')
-        except RateLimitError:
-            st.warning(f"⚠️ Rate limit reached. Retrying... ({attempt + 1}/3)")
-            time.sleep(5)  # Wait before retrying
-    return None
 
-language_tool = get_language_tool()
-
-if language_tool is None:
-    st.error("❌ LanguageTool API is rate-limited. Try again later.")
 def generate_resume(profile_sections_text, job_description=None, api_key=None):
     if api_key:
         client = OpenAI(api_key=api_key)
