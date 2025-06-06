@@ -15,9 +15,6 @@ from fake_useragent import UserAgent
 import json
 import urllib.parse
 from streamlit_lottie import st_lottie
-import requests
-from language_tool_python.utils import RateLimitError
-
 
 # Load environment variables from .env file
 load_dotenv()
@@ -26,8 +23,7 @@ load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY") or st.secrets.get("OPENAI_API_KEY", None)
 
 # Initialize language tool for grammar checking
-language_tool = language_tool_python.LanguageToolPublicAPI('en-US')
-
+language_tool = language_tool_python.LanguageTool('en-US')
 
 # Set page configuration
 st.set_page_config(page_title="LinkedIn Profile Auditor", page_icon="🔍", layout="wide")
@@ -48,24 +44,6 @@ It checks for grammar, professional tone, keyword relevance, and gives you actio
 """)
 
 # Add the resume generation function
-def load_lottieurl(url: str):
-    r = requests.get(url)
-    if r.status_code != 200:
-        return None
-    return r.json()
-def get_language_tool():
-    for attempt in range(3):
-        try:
-            return language_tool_python.LanguageToolPublicAPI('en-US')
-        except RateLimitError:
-            st.warning(f"⚠️ Rate limit reached. Retrying... ({attempt + 1}/3)")
-            time.sleep(5)  # Wait before retrying
-    return None
-
-language_tool = get_language_tool()
-
-if language_tool is None:
-    st.error("❌ LanguageTool API is rate-limited. Try again later.")
 def generate_resume(profile_sections_text, job_description=None, api_key=None):
     if api_key:
         client = OpenAI(api_key=api_key)
