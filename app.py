@@ -16,6 +16,7 @@ import json
 import urllib.parse
 from streamlit_lottie import st_lottie
 import requests
+from language_tool_python.utils import RateLimitError
 
 
 # Load environment variables from .env file
@@ -52,7 +53,21 @@ def load_lottieurl(url: str):
     if r.status_code != 200:
         return None
     return r.json()
+def get_language_tool():
+    for i in range(3):
+        try:
+            return language_tool_python.LanguageToolPublicAPI('en-US')
+        except RateLimitError:
+            time.sleep(5)
+    return None
 
+language_tool = get_language_tool()
+
+if language_tool:
+    matches = language_tool.check(user_input)
+    # continue processing
+else:
+    st.warning("⚠️ LanguageTool API is currently overloaded. Try again in a few seconds.")
 def generate_resume(profile_sections_text, job_description=None, api_key=None):
     if api_key:
         client = OpenAI(api_key=api_key)
