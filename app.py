@@ -46,18 +46,18 @@ It checks for grammar, professional tone, keyword relevance, and gives you actio
 
 # Add the resume generation function
 def get_language_tool():
-    for attempt in range(3):  # Try 3 times
+    for attempt in range(3):
         try:
             return language_tool_python.LanguageToolPublicAPI('en-US')
         except RateLimitError:
-            print(f"⚠️ Rate limit hit, retrying... attempt {attempt + 1}")
-            time.sleep(5)  # wait 5 seconds before retrying
+            st.warning(f"⚠️ Rate limit reached. Retrying... ({attempt + 1}/3)")
+            time.sleep(5)  # Wait before retrying
     return None
 
 language_tool = get_language_tool()
 
 if language_tool is None:
-    st.warning("⚠️ LanguageTool API is currently rate-limited. Please wait and try again later.")
+    st.error("❌ LanguageTool API is rate-limited. Try again later.")
 def generate_resume(profile_sections_text, job_description=None, api_key=None):
     if api_key:
         client = OpenAI(api_key=api_key)
