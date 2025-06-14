@@ -23,7 +23,8 @@ load_dotenv()
 openai_api_key = os.getenv("OPENAI_API_KEY") or st.secrets.get("OPENAI_API_KEY", None)
 
 # Initialize language tool for grammar checking
-language_tool = language_tool_python.LanguageTool('en-US')
+language_tool = language_tool_python.LanguageToolPublicAPI('en-US')
+
 
 # Set page configuration
 st.set_page_config(page_title="LinkedIn Profile Auditor", page_icon="🔍", layout="wide")
